@@ -1,43 +1,37 @@
-// import { nuw_object } from "../client/app.js";
+import { checkIfInDb } from "./saveObject.js";
+import { dataBase } from "../db/db_json.js";
 
-//console.log(nuw_object);
 
-
-// function createObject(nuw_object)
-// {
-//     const check_prametr = (nuw_object)=>nuw_object.map((element)=>{
-//         if("id" in nuw_object && "terroristName" in nuw_object && "weapons" in nuw_object && "text" in nuw_object)
-//         {
-//             return nuw_object
-//         }
-//         else if(){
-
-//         }
-//     })
-// }
-
-const checkID = (id)=>{
-    try{
-    if(typeof(id)!=='string' && id === undefined && typeof(id)!== 'number'){
-        throw new Error ("must enter numbers!")
+export const checkID = (id) => {
+    try {
+        if (typeof (id) !== 'string' && id === undefined && typeof (id) !== 'number') {
+            throw new Error("must enter numbers!")
+        }
+        return id;
+    } catch {
+        console.error("Must be numbers in id!")
     }
-    return id;
-}catch{
-    console.error("Must be numbers in id!")
-}
 };
 
+function checkNotNull(obj) {
+    return Object.values(obj).every(value => value !== '');
+}
 
- export  function createObject(id,terroristName = "Muhammad — unknown last name",weapons ,text)
-{
-    let object = 
+
+export function createObject(id, terroristName = "Muhammad — unknown last name", weapons, text) {
+    let object =
     {
-        id:checkID(id),
-        terroristName : terroristName,
-        weapons : weapons,
+        id: checkID(id),
+        terroristName: terroristName,
+        weapons: [weapons],
         text: text
     }
-    return object;
+    if (checkIfInDb(object)) {
+        return;
+    } else {
+        if (checkNotNull(object)) { dataBase.push(object) }
+        else{
+            console.log('Please enter all the necessary fields')
+        }
+    }
 };
-console.log(createObject(undefined,undefined,['f','f'],"ghikj"));
-export const nuw_object =createObject("5454",undefined,['f','f'],"ghikj")

@@ -1,9 +1,4 @@
 import { dataBase } from "../db/db_json.js";
-import { nuw_object } from "./createObject.js";
-
-console.log(dataBase);
-
-console.log(nuw_object);
 
 
 function check_prametrs(nuw_object)
@@ -18,9 +13,7 @@ function check_prametrs(nuw_object)
 
 }
 
-console.log(check_prametrs(nuw_object));
-
-function checkIfInDb(nuw_object)
+export function checkIfInDb(nuw_object)
 {
     try{
         for(const keyID of dataBase)
@@ -30,8 +23,7 @@ function checkIfInDb(nuw_object)
                 throw new Error("This ID already exists!")
             }
         }
-        dataBase.push(nuw_object)
-        return nuw_object;
+        return false;
 
     }catch{
         console.error("This ID already exists!");
@@ -39,7 +31,3 @@ function checkIfInDb(nuw_object)
     }
 
 }
-console.log(checkIfInDb(nuw_object));
-
-
-console.log(dataBase);/////////////////////////////////////////
